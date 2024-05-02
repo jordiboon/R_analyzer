@@ -4,10 +4,12 @@ from RLexer import RLexer
 from RParser import RParser
 from RFilter import RFilter
 
-from MyVisitor import MyVisitor
-from MyListener import MyListener
-def main():
+from ExtractNames import ExtractNames
+from ExtractImports import ExtractImports
+from ExtractConfigs import ExtractConfigs
+from ExtractParams import ExtractParams
 
+def main():
     # first arg is the file name
     input_stream = FileStream(sys.argv[1], encoding='utf-8')
     lexer = RLexer(input_stream)
@@ -22,10 +24,22 @@ def main():
     parser = RParser(tokens)
     tree = parser.prog()
 
-    visitor = MyVisitor()
+    visitor = ExtractNames()
     output = visitor.visit(tree)
     print(output)
-    print(tree.toStringTree(recog=parser))
+
+    visitor = ExtractImports()
+    output = visitor.visit(tree)
+    print(output)
+
+    visitor = ExtractConfigs()
+    output = visitor.visit(tree)
+    print(output)
+
+    visitor = ExtractParams()
+    output = visitor.visit(tree)
+    print(output)
+    # print(tree.toStringTree(recog=parser))
 
     # progListener = MyListener(tokens)
     # walker = ParseTreeWalker()
