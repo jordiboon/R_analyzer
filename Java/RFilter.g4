@@ -40,18 +40,22 @@ options {
 }
 
 @members {
-    self.curlies = 0
+protected int curlies = 0;
 }
 
 // TODO: MAKE THIS GET ONE COMMAND ONLY
-stream : (elem|NL|';')* EOF ;
+stream
+    : (elem | NL | ';')* EOF
+    ;
 
-eat :   (NL {$NL.channel = Token.HIDDEN_CHANNEL})+ ;
+eat
+    : (NL {((WritableToken)$NL).setChannel(Token.HIDDEN_CHANNEL);})+
+    ;
 
 elem
     : op eat?
     | atom
-    | '{' eat? {self.curlies += 1} (elem|NL|';')* {self.curlies -= 1 } '}'
+    | '{' eat? {curlies++;} (elem | NL | ';')* {curlies--;} '}'
     | '(' (elem | eat)* ')'
     | '[' (elem | eat)* ']'
     | '[[' (elem | eat)* ']' ']'
@@ -59,12 +63,29 @@ elem
     | 'for' eat? '(' (elem | eat)* ')' eat?
     | 'while' eat? '(' (elem | eat)* ')' eat?
     | 'if' eat? '(' (elem | eat)* ')' eat?
-    | 'else'
-        {
-tok = self._input.LT(-2)
-if self.curlies > 0 and tok.type == self.NL:
-   tok.channel = Token.HIDDEN_CHANNEL
-    }
+    | 'else' {
+        // ``inside a compound expression, a newline before else is discarded,
+        // whereas at the outermost level, the newline terminates the if
+        // construction and a subsequent else causes a syntax error.''
+        /*
+        Works here
+            if (1==0) { print(1) } else { print(2) }
+
+        and correctly gets error here:
+
+            if (1==0) { print(1) }
+            else { print(2) }
+
+        this works too:
+
+            if (1==0) {
+              if (2==0) print(1)
+              else print(2)
+            }
+        */
+        WritableToken tok = (WritableToken)_input.LT(-2);
+        if (curlies>0&&tok.getType()==NL) tok.setChannel(Token.HIDDEN_CHANNEL);
+        }
     ;
 
 atom

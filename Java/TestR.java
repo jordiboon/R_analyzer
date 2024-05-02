@@ -38,6 +38,6 @@ public class TestR {
 		visitor.visit(tree);
 
 		//tree.save(parser, "/tmp/R.ps"); // Generate postscript
-		// System.out.println(tree.toStringTree(parser));
+		System.out.println(tree.toStringTree(parser));
 	}
 }
