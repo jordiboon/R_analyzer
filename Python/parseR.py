@@ -23,6 +23,7 @@ def main():
 
     parser = RParser(tokens)
     tree = parser.prog()
+    print(tree.toStringTree(recog=parser))
 
     visitor = ExtractNames()
     output = visitor.visit(tree)
@@ -39,11 +40,6 @@ def main():
     visitor = ExtractParams()
     output = visitor.visit(tree)
     print(output)
-    # print(tree.toStringTree(recog=parser))
-
-    # progListener = MyListener(tokens)
-    # walker = ParseTreeWalker()
-    # walker.walk(progListener, tree)
 
 if __name__ == '__main__':
     main()

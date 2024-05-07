@@ -20,3 +20,7 @@ class ExtractConfigs(RVisitor):
     
     def visitId (self, ctx:RParser.IdContext):
         return ctx.ID().getText()
+    
+    def visitString(self, ctx: RParser.StringContext):
+        # In the case of environment variables, identifier could be string.
+        return ctx.STRING().getText()

@@ -24,10 +24,10 @@ class ExtractParams(RVisitor):
         return ctx.ID().getText()
     
     def visitInt(self, ctx:RParser.IntContext):
-        return int(ctx.INT().getText())
+        return ctx.INT().getText()
     
     def visitFloat(self, ctx: RParser.FloatContext):
-        return super().visitFloat(ctx)
+        return ctx.FLOAT().getText()
     
     def visitString(self, ctx: RParser.StringContext):
-        return super().visitString(ctx) 
+        return ctx.STRING().getText()
