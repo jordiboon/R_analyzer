@@ -4,10 +4,7 @@ from RLexer import RLexer
 from RParser import RParser
 from RFilter import RFilter
 
-from ExtractNames import ExtractNames
-from ExtractImports import ExtractImports
-from ExtractConfigs import ExtractConfigs
-from ExtractParams import ExtractParams
+from Visitors import *
 
 def main():
     # first arg is the file name
@@ -23,11 +20,11 @@ def main():
 
     parser = RParser(tokens)
     tree = parser.prog()
-    print(tree.toStringTree(recog=parser))
+    # print(tree.toStringTree(recog=parser))
 
-    visitor = ExtractNames()
-    output = visitor.visit(tree)
-    print(output)
+    # visitor = ExtractNames()
+    # output = visitor.visit(tree)
+    # print(output)
 
     visitor = ExtractImports()
     output = visitor.visit(tree)
@@ -40,6 +37,15 @@ def main():
     visitor = ExtractParams()
     output = visitor.visit(tree)
     print(output)
+
+    visitor = ExtractDefs()
+    defs = visitor.visit(tree)
+    print(defs)
+
+    visitor = ExtractInputs(defs)
+    inputs = visitor.visit(tree)
+    print(inputs)
+
 
 if __name__ == '__main__':
     main()
