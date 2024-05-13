@@ -20,7 +20,7 @@ def main():
 
     parser = RParser(tokens)
     tree = parser.prog()
-    # print(tree.toStringTree(recog=parser))
+    print(tree.toStringTree(recog=parser))
 
     # visitor = ExtractNames()
     # output = visitor.visit(tree)

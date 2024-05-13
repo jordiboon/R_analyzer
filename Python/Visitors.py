@@ -1,6 +1,6 @@
 from RVisitor import RVisitor
 from RParser import RParser
-
+import re
 
 class ExtractDefs(RVisitor):
     def __init__(self):
@@ -42,8 +42,31 @@ class ExtractInputs(RVisitor):
         # remove all built in constants ["T", "F", "pi", "is.numeric", "mu", "round"]
         self.inputs = {i for i in self.inputs if i not in ["T", "F", "pi", "is.numeric", "mu", "round"]}
         return self.inputs
+
+    def visitSublist(self, ctx: RParser.SublistContext):
+        self.visitChildren(ctx)
+
+    def visitSub(self, ctx: RParser.SubContext):
+        # If function, add all its arguments to scoped, which we find using regex
+        if ctx.getText().startswith("function"):
+            ids = re.findall(r'\((.*?)\)', ctx.getText())[0].split(", ")
+            ids = ids[0].split(",")
     
+            # add all ids to scoped
+            for id in ids:
+                self.scoped.add(id)
+
+            self.visitChildren(ctx)
+            # remove all ids from scoped
+            for id in ids:
+                self.scoped.remove(id)
+            return None
+
+        if ctx.expr() is not None:
+            self.visitChildren(ctx)
+
     def visitFor(self, ctx: RParser.ForContext):
+        # Iterator variable is scoped
         self.scoped.add(ctx.ID().getText())
         self.visit(ctx.expr(0))
         self.visit(ctx.expr(1))
@@ -54,12 +77,14 @@ class ExtractInputs(RVisitor):
         return None
 
     def visitCall(self, ctx: RParser.CallContext):
+        # Skip import calls
         if ctx.expr().getText() == "library" or ctx.expr().getText() == "require":
             return None
 
         self.visit(ctx.sublist())
 
     def visitId(self, ctx: RParser.IdContext):
+        # Only add IDs to input if they have not been defined and are not scoped.
         if ctx.getText() not in self.defs and ctx.getText() not in self.scoped:
             self.inputs.add(ctx.getText())
         return None
