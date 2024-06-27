@@ -38,13 +38,17 @@ def main():
     output = visitor.visit(tree)
     print(output)
 
-    visitor = ExtractDefs()
+    visitor = ExtractNames()
+    names = visitor.visit(tree)
+    print(names)
+
+    visitor = ExtractDefined()
     defs = visitor.visit(tree)
     print(defs)
-
-    visitor = ExtractInputs(defs)
-    inputs = visitor.visit(tree)
-    print(inputs)
+    
+    visitor = ExtractUndefined(defs)
+    undef = visitor.visit(tree)
+    print(undef)
 
 
 if __name__ == '__main__':

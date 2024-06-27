@@ -22,7 +22,7 @@ def serializedATN():
         2,1,2,3,2,121,8,2,1,2,1,2,3,2,125,8,2,1,2,1,2,1,2,5,2,130,8,2,10,
         2,12,2,133,9,2,1,2,1,2,3,2,137,8,2,1,2,3,2,140,8,2,1,2,1,2,3,2,144,
         8,2,1,2,3,2,147,8,2,1,3,1,3,1,4,1,4,1,4,0,0,5,0,2,4,6,8,0,2,2,0,
-        45,52,56,61,6,0,5,27,29,30,41,41,43,44,53,54,62,62,190,0,15,1,0,
+        45,52,56,61,6,0,5,27,29,30,41,41,43,44,53,55,62,62,190,0,15,1,0,
         0,0,2,22,1,0,0,0,4,146,1,0,0,0,6,148,1,0,0,0,8,150,1,0,0,0,10,14,
         3,4,2,0,11,14,5,63,0,0,12,14,5,1,0,0,13,10,1,0,0,0,13,11,1,0,0,0,
         13,12,1,0,0,0,14,17,1,0,0,0,15,13,1,0,0,0,15,16,1,0,0,0,16,18,1,
@@ -89,7 +89,7 @@ class RFilter ( Parser ):
                      "')'", "'{'", "'}'", "'if'", "'else'", "'for'", "'in'", 
                      "'while'", "'repeat'", "'?'", "'next'", "'break'", 
                      "'NULL'", "'NA'", "'Inf'", "'NaN'", "'TRUE'", "'FALSE'", 
-                     "','", "'...'", "'.'" ]
+                     "'.'", "','", "'...'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -247,7 +247,7 @@ class RFilter ( Parser ):
             self.state = 15
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542218) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578250) != 0):
                 self.state = 13
                 self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,0,self._ctx)
@@ -410,7 +410,7 @@ class RFilter ( Parser ):
             self.state = 146
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 41, 43, 44, 53, 54, 62]:
+            if token in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30, 41, 43, 44, 53, 54, 55, 62]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 26
                 self.op()
@@ -444,7 +444,7 @@ class RFilter ( Parser ):
                 self.state = 41
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542218) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578250) != 0):
                     self.state = 39
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
@@ -479,7 +479,7 @@ class RFilter ( Parser ):
                 self.state = 51
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 49
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,7,self._ctx)
@@ -508,7 +508,7 @@ class RFilter ( Parser ):
                 self.state = 60
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 58
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
@@ -537,7 +537,7 @@ class RFilter ( Parser ):
                 self.state = 69
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 67
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,11,self._ctx)
@@ -578,7 +578,7 @@ class RFilter ( Parser ):
                 self.state = 83
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 81
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,14,self._ctx)
@@ -625,7 +625,7 @@ class RFilter ( Parser ):
                 self.state = 99
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 97
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,18,self._ctx)
@@ -672,7 +672,7 @@ class RFilter ( Parser ):
                 self.state = 115
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 113
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,22,self._ctx)
@@ -719,7 +719,7 @@ class RFilter ( Parser ):
                 self.state = 131
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -36028975528542220) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & -178509578252) != 0):
                     self.state = 129
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,26,self._ctx)
@@ -894,7 +894,7 @@ class RFilter ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 150
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 4638736205372981216) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 4674765002391945184) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)

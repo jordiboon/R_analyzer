@@ -101,7 +101,7 @@ expr
     | 'NaN' # nan
     | 'TRUE' # true
     | 'FALSE' # false
-    | '.' # dot // Temp fix for bquote(). 
+    | '.' # dot // Temp fix for bquote().
     ;
 
 exprlist
@@ -207,6 +207,7 @@ fragment LETTER
 
 USER_OP
     : '%' .*? '%'
+    | '|>'
     ;
 
 COMMENT

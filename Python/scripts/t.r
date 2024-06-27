@@ -1,32 +1,38 @@
-library(readr)
-library(dplyr)
-library(ggplot2)
-library(forcats)
+temp <- purrr::map(.x = 1988:2023,
+                        .f = ~{
 
-# import dataframe
-df <- read_csv("us-500.csv")
+                          # Retrieve data for period 1 (1 Dec to 1 March)
+                          period1 <- retrieve_knmi_edr_data(bbox = bbox,
+                                                            variable = "mean temperature",
+                                                            start_date = lubridate::make_date(.x - 1, 12, 1),
+                                                            start_time = "00:00:00",
+                                                            end_date = lubridate::make_date(.x, 3, 1),
+                                                            end_time = "23:59:59")
 
-# manipulate data
-plot_data <- df %>%
-  group_by(state) %>%
-  count()
+                          # Retrieve data for period 2 (2 March to 31 May)
+                          period2 <- retrieve_knmi_edr_data(bbox = bbox,
+                                                            variable = "mean temperature",
+                                                            start_date = lubridate::make_date(.x, 3, 2),
+                                                            start_time = "00:00:00",
+                                                            end_date = lubridate::make_date(.x, 5, 31),
+                                                            end_time = "23:59:59")
 
-# save manipulated data to output folder
-write_csv(plot_data, "plot_data.csv")
+                          # Match temperature data to dates and coordinates
+                          data1 <- tidyr::expand_grid(date = period1$domain$axes$t$values,
+                                                      y = period1$domain$axes$y$values,
+                                                      x = period1$domain$axes$x$values) |>
+                            dplyr::mutate(temperature = period1$ranges$temperature$values)
 
-# create plot based on manipulated data
-plot <- plot_data %>% 
-  ggplot()+
-  geom_col(aes(fct_reorder(state, n), 
-               n, 
-               fill = n))+
-  coord_flip()+
-  labs(
-    title = "Number of people by state",
-    subtitle = "From US-500 dataset",
-    x = "State",
-    y = "Number of people"
-  )+ 
-  theme_bw()
+                          data2 <- tidyr::expand_grid(date = period2$domain$axes$t$values,
+                                                      y = period2$domain$axes$y$values,
+                                                      x = period2$domain$axes$x$values) |>
+                            dplyr::mutate(temperature = period2$ranges$temperature$values)
 
-ggsave("myplot.png", width = 10, height = 8, dpi = 100)
+                          # Bind output of two periods
+                          data <- dplyr::bind_rows(data1, data2)
+
+                          return(data)
+
+                        },
+                        .progress = TRUE) |>
+  purrr::list_c()
